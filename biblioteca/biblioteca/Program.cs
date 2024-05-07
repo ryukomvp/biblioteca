@@ -25,7 +25,7 @@ namespace biblioteca
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.Clear();
 			
-			public string ruta = "C:/GitHub/biblioteca/ficheros/";
+			string ruta = "C:/GitHub/biblioteca/ficheros/";
 			
 			do
 			{
@@ -54,7 +54,7 @@ namespace biblioteca
 						Console.Clear();
 						Console.ForegroundColor = ConsoleColor.White;
 						Console.BackgroundColor = ConsoleColor.Red;
-						Console.Write("\n\tDebe ingresar una opción válida");
+						Console.WriteLine("\n\tDebe ingresar una opción válida");
 						Console.ForegroundColor = ConsoleColor.White;
 						Console.BackgroundColor = ConsoleColor.Black;
 						break;
@@ -63,7 +63,7 @@ namespace biblioteca
 			creditos();
 		}
 		
-		static int menu()
+		static char menu()
 		{
 			Console.Clear();
 			Console.WriteLine("\t* --------------------------------- *");
@@ -110,12 +110,20 @@ namespace biblioteca
 		{
 			Console.Clear();
 			Console.WriteLine("\n\tGracias por su preferencia.");
+			Console.WriteLine("\tIntegrantes:");
 			Console.ForegroundColor = ConsoleColor.DarkGray;
-//			Console.WriteLine("\tig:\thttps://www.instagram.com/dnlhernandez_/");
-			Console.WriteLine("\trepositorio:\thttps://github.com/ryukomvp/biblioteca");
+			Console.WriteLine("\tAlvarado Orellana, Ricardo Ernesto");
+			Console.WriteLine("\tGarcía Flores, Fabricio Alexander");
+			Console.WriteLine("\tHernández Castro, Jeffrey Alessandro");
+			Console.WriteLine("\tHernández Figueroa, Daniel Alejandro");
+			Console.WriteLine("\tMartínez Núñez, José Alberto");
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.Write("\n\tRepositorio: ");
+			Console.ForegroundColor = ConsoleColor.DarkGray;
+			Console.WriteLine("https://github.com/ryukomvp/biblioteca");
 			Console.ForegroundColor = ConsoleColor.Black;
 			Console.BackgroundColor = ConsoleColor.White;
-			Console.WriteLine("\n-> Fin del programa.");
+			Console.WriteLine("\n-> Fin del programa");
 			Console.ReadKey();
 		}
 	}
