@@ -19,6 +19,8 @@ namespace biblioteca
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.Clear();
 			
+			public string ruta = "C:/GitHub/biblioteca/ficheros/";
+			
 			do
 			{
 				switch (menu()) {
