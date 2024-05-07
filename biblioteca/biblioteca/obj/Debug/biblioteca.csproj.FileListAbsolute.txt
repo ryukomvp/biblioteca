@@ -1,0 +1,5 @@
+C:\GitHub\biblioteca\biblioteca\biblioteca\bin\Debug\biblioteca.exe
+C:\GitHub\biblioteca\biblioteca\biblioteca\bin\Debug\biblioteca.pdb
+C:\GitHub\biblioteca\biblioteca\biblioteca\obj\Debug\biblioteca.csprojResolveAssemblyReference.cache
+C:\GitHub\biblioteca\biblioteca\biblioteca\obj\Debug\biblioteca.exe
+C:\GitHub\biblioteca\biblioteca\biblioteca\obj\Debug\biblioteca.pdb
