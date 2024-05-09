@@ -45,6 +45,7 @@ namespace biblioteca
 						break;
 					case '5':
 						// Opción: mostrar toda la información
+						mostrar_info(ruta);
 						break;
 					case '6':
 						// Opción: salir
@@ -83,6 +84,114 @@ namespace biblioteca
 			return opcion;
 		}
 		
+		static void mostrar_info(string ruta)
+		{
+			char resp = '0';
+			
+			do
+			{
+				Console.Clear();
+				Console.WriteLine("\t* --------------------------------- *");
+				Console.WriteLine("\t| Archivos                          |");
+				Console.WriteLine("\t* --------------------------------- *");
+				Console.WriteLine("\t| 1.\tInformación de usuarios     |");
+				Console.WriteLine("\t| 2.\tInformación de libros       |");
+				Console.WriteLine("\t| 3.\tInformación de prestamos    |");
+				Console.WriteLine("\t| 4.\tInformación de devoluciones |");
+//			Console.WriteLine("\t| 5.\tRegresar al menu principal  |");
+				Console.WriteLine("\t* --------------------------------- *");
+				Console.Write("\n\tSeleccione el archivo que desea leer: ");
+				char opcion = Console.ReadKey().KeyChar;
+				switch (opcion) {
+					case '1':
+						// Opción: leer usuarios
+						try {
+							Console.Clear();
+							ruta = ruta + "usuarios.txt";
+							Process.Start(ruta);
+						} catch (Exception e) {
+							Console.ForegroundColor = ConsoleColor.White;
+							Console.BackgroundColor = ConsoleColor.Red;
+							Console.Write("\n\t");
+							Console.WriteLine(e.Message);
+							Console.ForegroundColor = ConsoleColor.White;
+							Console.BackgroundColor = ConsoleColor.Black;
+							Console.ReadKey();
+						}
+						break;
+					case '2':
+						// Opción: leer libros
+						try {
+							Console.Clear();
+							ruta = ruta + "libros.txt";
+							Process.Start(ruta);
+						} catch (Exception e) {
+							Console.ForegroundColor = ConsoleColor.White;
+							Console.BackgroundColor = ConsoleColor.Red;
+							Console.Write("\n\t");
+							Console.WriteLine(e.Message);
+							Console.ForegroundColor = ConsoleColor.White;
+							Console.BackgroundColor = ConsoleColor.Black;
+							Console.ReadKey();
+						}
+						break;
+					case '3':
+						// Opción: leer prestamos
+						try {
+							Console.Clear();
+							ruta = ruta + "prestamos.txt";
+							Process.Start(ruta);
+						} catch (Exception e) {
+							Console.ForegroundColor = ConsoleColor.White;
+							Console.BackgroundColor = ConsoleColor.Red;
+							Console.Write("\n\t");
+							Console.WriteLine(e.Message);
+							Console.ForegroundColor = ConsoleColor.White;
+							Console.BackgroundColor = ConsoleColor.Black;
+							Console.ReadKey();
+						}
+						break;
+					case '4':
+						// Opción: leer devoluciones
+						try {
+							Console.Clear();
+							ruta = ruta + "devoluciones.txt";
+							Process.Start(ruta);
+						} catch (Exception e) {
+							Console.ForegroundColor = ConsoleColor.White;
+							Console.BackgroundColor = ConsoleColor.Red;
+							Console.Write("\n\t");
+							Console.WriteLine(e.Message);
+							Console.ForegroundColor = ConsoleColor.White;
+							Console.BackgroundColor = ConsoleColor.Black;
+							Console.ReadKey();
+						}
+						break;
+					default:
+						Console.Clear();
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Red;
+						Console.WriteLine("\n\tDebe ingresar una opción válida");
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Black;
+						break;
+				}
+				
+				try {
+					Console.Write("\n\tLeer otro archivo [S] / Regresar al menu principal [cualquier tecla]: ");
+					resp = Console.ReadKey().KeyChar;
+				} catch (Exception e) {
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.BackgroundColor = ConsoleColor.Red;
+					Console.Write("\n\t");
+					Console.WriteLine(e.Message);
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.BackgroundColor = ConsoleColor.Black;
+					Console.ReadKey();
+				}
+			} while(resp == 'S' || resp == 's');
+		}
+		
 		static Boolean salir()
 		{
 			try {
@@ -96,12 +205,13 @@ namespace biblioteca
 					return false;
 				}
 			} catch (Exception e) {
-				Console.Write("\t");
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.BackgroundColor = ConsoleColor.Red;
+				Console.Write("\n\t");
 				Console.WriteLine(e.Message);
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.BackgroundColor = ConsoleColor.Black;
+				Console.ReadKey();
 				
 				return false;
 			}
