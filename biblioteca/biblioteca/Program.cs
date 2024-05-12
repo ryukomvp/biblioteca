@@ -109,7 +109,7 @@ namespace biblioteca
 							Console.Clear();
 							ruta = ruta + "usuarios.txt";
 							Process.Start(ruta);
-							ruta = ruta.TrimEnd('u','s','u','a','r','i','o','s','.','t','x','t');
+							ruta = "C:/GitHub/biblioteca/ficheros/";
 						} catch (Exception e) {
 							Console.ForegroundColor = ConsoleColor.White;
 							Console.BackgroundColor = ConsoleColor.Red;
@@ -125,9 +125,8 @@ namespace biblioteca
 						try {
 							Console.Clear();
 							ruta = ruta + "libros.txt";
-							Console.Write(ruta);
-//							"C:\GitHub\biblioteca\ficheros\libros.txt"
 							Process.Start(ruta);
+							ruta = "C:/GitHub/biblioteca/ficheros/";
 						} catch (Exception e) {
 							Console.ForegroundColor = ConsoleColor.White;
 							Console.BackgroundColor = ConsoleColor.Red;
@@ -144,6 +143,7 @@ namespace biblioteca
 							Console.Clear();
 							ruta = ruta + "prestamos.txt";
 							Process.Start(ruta);
+							ruta = "C:/GitHub/biblioteca/ficheros/";
 						} catch (Exception e) {
 							Console.ForegroundColor = ConsoleColor.White;
 							Console.BackgroundColor = ConsoleColor.Red;
@@ -160,6 +160,7 @@ namespace biblioteca
 							Console.Clear();
 							ruta = ruta + "devoluciones.txt";
 							Process.Start(ruta);
+							ruta = "C:/GitHub/biblioteca/ficheros/";
 						} catch (Exception e) {
 							Console.ForegroundColor = ConsoleColor.White;
 							Console.BackgroundColor = ConsoleColor.Red;
@@ -204,7 +205,7 @@ namespace biblioteca
 				if (resp == 'M' || resp == 'm') {
 					return true;
 				} else {
-					creditos();
+//					creditos();
 					return false;
 				}
 			} catch (Exception e) {
