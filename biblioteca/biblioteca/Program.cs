@@ -109,6 +109,7 @@ namespace biblioteca
 							Console.Clear();
 							ruta = ruta + "usuarios.txt";
 							Process.Start(ruta);
+							ruta = ruta.TrimEnd('u','s','u','a','r','i','o','s','.','t','x','t');
 						} catch (Exception e) {
 							Console.ForegroundColor = ConsoleColor.White;
 							Console.BackgroundColor = ConsoleColor.Red;
@@ -124,6 +125,8 @@ namespace biblioteca
 						try {
 							Console.Clear();
 							ruta = ruta + "libros.txt";
+							Console.Write(ruta);
+//							"C:\GitHub\biblioteca\ficheros\libros.txt"
 							Process.Start(ruta);
 						} catch (Exception e) {
 							Console.ForegroundColor = ConsoleColor.White;
