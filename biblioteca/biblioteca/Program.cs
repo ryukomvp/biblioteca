@@ -98,7 +98,7 @@ namespace biblioteca
 				Console.WriteLine("\t| 2.\tInformación de libros       |");
 				Console.WriteLine("\t| 3.\tInformación de prestamos    |");
 				Console.WriteLine("\t| 4.\tInformación de devoluciones |");
-//			Console.WriteLine("\t| 5.\tRegresar al menu principal  |");
+				Console.WriteLine("\t| 5.\tRegresar al menu principal  |");
 				Console.WriteLine("\t* --------------------------------- *");
 				Console.Write("\n\tSeleccione el archivo que desea leer: ");
 				char opcion = Console.ReadKey().KeyChar;
@@ -170,6 +170,9 @@ namespace biblioteca
 							Console.BackgroundColor = ConsoleColor.Black;
 							Console.ReadKey();
 						}
+						break;
+					case '5':
+						Console.Clear();
 						break;
 					default:
 						Console.Clear();
