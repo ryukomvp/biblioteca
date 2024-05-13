@@ -38,7 +38,6 @@ namespace biblioteca
 						break;
 					case '3':
 						// Opción: registrar un prestamo de libro
-//						dklaj
 						break;
 					case '4':
 						// Opción: registrar una devolución de libro
