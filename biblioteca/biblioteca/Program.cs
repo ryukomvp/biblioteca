@@ -18,6 +18,14 @@ namespace biblioteca
 {
 	class Program
 	{
+		public struct datos
+		{
+			public String cadena, us;
+			public bool encontrado;
+			public String[] campos;
+			public char[] separador;
+		}
+		
 		public static void Main(string[] args)
 		{
 			Console.Title = "Biblioteca";
@@ -26,7 +34,9 @@ namespace biblioteca
 			Console.Clear();
 			
 			string ruta = "C:/GitHub/biblioteca/ficheros/";
-			
+			string rutadb = "C:/GitHub/biblioteca/db/";
+//			login(rutadb);
+			Console.ReadKey();
 			do
 			{
 				switch (menu()) {
@@ -62,6 +72,52 @@ namespace biblioteca
 				}
 			} while (salir());
 			creditos();
+		}
+		
+		static void login(string ruta)
+		{
+			StreamReader lectura;
+			datos var_datos;
+			
+			var_datos.encontrado = false;
+			var_datos.campos = new String[2];
+			var_datos.separador = new char[1];
+			var_datos.separador[0] = ',';
+			ruta = ruta + "usuarios.txt";
+			
+			for (int i = 0; i < 1; i++) {
+				try {
+					lectura = File.OpenText(ruta);
+					Console.Write("\n\tIngrese su usuario: ");
+					var_datos.us = Console.ReadLine();
+					var_datos.cadena = lectura.ReadLine();
+					
+					while (var_datos.cadena != null) {
+						var_datos.campos = var_datos.cadena.Split(var_datos.separador[0]);
+						
+						if(var_datos.campos[0].Trim().Equals(var_datos.us)) {
+							Console.WriteLine("\tImpresión de los datos encontrados...");
+							Console.WriteLine("\tUsuario : " + var_datos.campos[0].Trim());
+							Console.WriteLine("\tClave : " + var_datos.campos[1].Trim());
+							var_datos.encontrado = true;
+						} else {
+							var_datos.cadena=lectura.ReadLine();
+						}
+					}
+					if (var_datos.encontrado == false) {
+						Console.Write("\n\tUsuario no encontrado");
+					}
+					lectura.Close();
+				} catch (Exception e) {
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.BackgroundColor = ConsoleColor.Red;
+					Console.Write("\n\t");
+					Console.WriteLine(e.Message);
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.BackgroundColor = ConsoleColor.Black;
+					Console.ReadKey();
+				}
+			}
 		}
 		
 		static char menu()
