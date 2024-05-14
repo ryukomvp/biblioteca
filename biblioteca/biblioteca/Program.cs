@@ -24,6 +24,8 @@ namespace biblioteca
 			public bool encontrado;
 			public String[] campos;
 			public char[] separador;
+			
+			public String ruta;
 		}
 		
 		public static void Main(string[] args)
@@ -33,10 +35,8 @@ namespace biblioteca
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.Clear();
 			
-			string ruta = "C:/GitHub/biblioteca/ficheros/";
-			string rutadb = "C:/GitHub/biblioteca/db/";
 //			login(rutadb);
-			Console.ReadKey();
+//			Console.ReadKey();
 			do
 			{
 				switch (menu()) {
@@ -54,7 +54,7 @@ namespace biblioteca
 						break;
 					case '5':
 						// Opción: mostrar toda la información
-						mostrar_info(ruta);
+						mostrar_info();
 						break;
 					case '6':
 						// Opción: salir
@@ -139,119 +139,125 @@ namespace biblioteca
 			return opcion;
 		}
 		
-		static void mostrar_info(string ruta)
+		static void mostrar_info()
 		{
-			char resp = '0';
+			StreamReader lectura;
+			datos var_datos;
+			bool fin_registros = false;
+			var_datos.campos = new String[2];
+			var_datos.separador = new char[1];
+			var_datos.separador[0] = ',';
+			var_datos.ruta = "C:/GitHub/biblioteca/db/";
 			
-			do
-			{
-				Console.Clear();
-				Console.WriteLine("\t* --------------------------------- *");
-				Console.WriteLine("\t| Archivos                          |");
-				Console.WriteLine("\t* --------------------------------- *");
-				Console.WriteLine("\t| 1.\tInformación de usuarios     |");
-				Console.WriteLine("\t| 2.\tInformación de libros       |");
-				Console.WriteLine("\t| 3.\tInformación de prestamos    |");
-				Console.WriteLine("\t| 4.\tInformación de devoluciones |");
-				Console.WriteLine("\t| 5.\tRegresar al menu principal  |");
-				Console.WriteLine("\t* --------------------------------- *");
-				Console.Write("\n\tSeleccione el archivo que desea leer: ");
-				char opcion = Console.ReadKey().KeyChar;
-				switch (opcion) {
-					case '1':
-						// Opción: leer usuarios
-						try {
-							Console.Clear();
-							ruta = ruta + "usuarios.txt";
-							Process.Start(ruta);
-							ruta = "C:/GitHub/biblioteca/ficheros/";
-						} catch (Exception e) {
-							Console.ForegroundColor = ConsoleColor.White;
-							Console.BackgroundColor = ConsoleColor.Red;
-							Console.Write("\n\t");
-							Console.WriteLine(e.Message);
-							Console.ForegroundColor = ConsoleColor.White;
-							Console.BackgroundColor = ConsoleColor.Black;
-							Console.ReadKey();
+			Console.Clear();
+			Console.WriteLine("\t* --------------------------------- *");
+			Console.WriteLine("\t| Archivos                          |");
+			Console.WriteLine("\t* --------------------------------- *");
+			Console.WriteLine("\t| 1.\tInformación de usuarios     |");
+			Console.WriteLine("\t| 2.\tInformación de libros       |");
+			Console.WriteLine("\t| 3.\tInformación de prestamos    |");
+			Console.WriteLine("\t| 4.\tInformación de devoluciones |");
+			Console.WriteLine("\t| 5.\tRegresar al menu principal  |");
+			Console.WriteLine("\t* --------------------------------- *");
+			Console.Write("\n\tSeleccione el archivo que desea leer: ");
+			char opcion = Console.ReadKey().KeyChar;
+			switch (opcion) {
+				case '1':
+					// Opción: leer usuarios
+					Console.Clear();
+					try {
+						var_datos.ruta = var_datos.ruta + "usuarios.txt";
+						lectura = File.OpenText(var_datos.ruta);
+						var_datos.cadena = lectura.ReadLine();
+						while (var_datos.cadena != null && fin_registros == false) {
+							var_datos.campos = var_datos.cadena.Split(var_datos.separador);
+							Console.WriteLine("\tImpresión de los datos encontrados...");
+							imprimir("Usuario", var_datos.campos[0].Trim());
+							imprimir("Clave", var_datos.campos[1].Trim());
+							Console.Write("\n\t*--------------------*--------------------*");
+							fin_registros = true;
 						}
-						break;
-					case '2':
-						// Opción: leer libros
-						try {
-							Console.Clear();
-							ruta = ruta + "libros.txt";
-							Process.Start(ruta);
-							ruta = "C:/GitHub/biblioteca/ficheros/";
-						} catch (Exception e) {
-							Console.ForegroundColor = ConsoleColor.White;
-							Console.BackgroundColor = ConsoleColor.Red;
-							Console.Write("\n\t");
-							Console.WriteLine(e.Message);
-							Console.ForegroundColor = ConsoleColor.White;
-							Console.BackgroundColor = ConsoleColor.Black;
-							Console.ReadKey();
-						}
-						break;
-					case '3':
-						// Opción: leer prestamos
-						try {
-							Console.Clear();
-							ruta = ruta + "prestamos.txt";
-							Process.Start(ruta);
-							ruta = "C:/GitHub/biblioteca/ficheros/";
-						} catch (Exception e) {
-							Console.ForegroundColor = ConsoleColor.White;
-							Console.BackgroundColor = ConsoleColor.Red;
-							Console.Write("\n\t");
-							Console.WriteLine(e.Message);
-							Console.ForegroundColor = ConsoleColor.White;
-							Console.BackgroundColor = ConsoleColor.Black;
-							Console.ReadKey();
-						}
-						break;
-					case '4':
-						// Opción: leer devoluciones
-						try {
-							Console.Clear();
-							ruta = ruta + "devoluciones.txt";
-							Process.Start(ruta);
-							ruta = "C:/GitHub/biblioteca/ficheros/";
-						} catch (Exception e) {
-							Console.ForegroundColor = ConsoleColor.White;
-							Console.BackgroundColor = ConsoleColor.Red;
-							Console.Write("\n\t");
-							Console.WriteLine(e.Message);
-							Console.ForegroundColor = ConsoleColor.White;
-							Console.BackgroundColor = ConsoleColor.Black;
-							Console.ReadKey();
-						}
-						break;
-					case '5':
-						Console.Clear();
-						break;
-					default:
-						Console.Clear();
+						lectura.Close();
+					} catch (Exception e) {
 						Console.ForegroundColor = ConsoleColor.White;
 						Console.BackgroundColor = ConsoleColor.Red;
-						Console.WriteLine("\n\tDebe ingresar una opción válida");
+						Console.Write("\n\t");
+						Console.WriteLine(e.Message);
 						Console.ForegroundColor = ConsoleColor.White;
 						Console.BackgroundColor = ConsoleColor.Black;
-						break;
-				}
-				
-				try {
-					Console.Write("\n\tLeer otro archivo [S] / Regresar al menu principal [cualquier tecla]: ");
-					resp = Console.ReadKey().KeyChar;
-				} catch (Exception e) {
+						Console.ReadKey();
+					}
+					break;
+				case '2':
+					// Opción: leer libros
+					try {
+						Console.Clear();
+						var_datos.ruta = var_datos.ruta + "libros.txt";
+						Process.Start(var_datos.ruta);
+					} catch (Exception e) {
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Red;
+						Console.Write("\n\t");
+						Console.WriteLine(e.Message);
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Black;
+						Console.ReadKey();
+					}
+					break;
+				case '3':
+					// Opción: leer prestamos
+					try {
+						Console.Clear();
+						var_datos.ruta = var_datos.ruta + "prestamos.txt";
+						Process.Start(var_datos.ruta);
+					} catch (Exception e) {
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Red;
+						Console.Write("\n\t");
+						Console.WriteLine(e.Message);
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Black;
+						Console.ReadKey();
+					}
+					break;
+				case '4':
+					// Opción: leer devoluciones
+					try {
+						Console.Clear();
+						var_datos.ruta = var_datos.ruta + "devoluciones.txt";
+						Process.Start(var_datos.ruta);
+					} catch (Exception e) {
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Red;
+						Console.Write("\n\t");
+						Console.WriteLine(e.Message);
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Black;
+						Console.ReadKey();
+					}
+					break;
+				case '5':
+					Console.Clear();
+					break;
+				default:
+					Console.Clear();
 					Console.ForegroundColor = ConsoleColor.White;
 					Console.BackgroundColor = ConsoleColor.Red;
-					Console.Write("\n\t");
-					Console.WriteLine(e.Message);
+					Console.WriteLine("\n\tDebe ingresar una opción válida");
 					Console.ForegroundColor = ConsoleColor.White;
 					Console.BackgroundColor = ConsoleColor.Black;
-					Console.ReadKey();
-				}
-			} while(resp == 'S' || resp == 's');
+					break;
+			}
+		}
+		
+		static void imprimir(string a, string b)
+		{
+			Console.Write("\n\t{0}: ", a);
+			Console.ForegroundColor = ConsoleColor.Black;
+			Console.BackgroundColor = ConsoleColor.Blue;
+			Console.Write("{0}", b);
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.BackgroundColor = ConsoleColor.Black;
 		}
 		
 		static Boolean salir()
