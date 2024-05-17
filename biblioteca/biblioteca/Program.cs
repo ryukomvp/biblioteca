@@ -18,6 +18,11 @@ namespace biblioteca
 {
 	class Program
 	{
+		public struct Devolucion
+		{
+			public String nombre, libro;
+			public String ruta;
+		}
 		public struct datos
 		{
 			public String cadena, us, clave;
@@ -26,6 +31,7 @@ namespace biblioteca
 		}
 		
 		static StreamReader lectura;
+		static StreamWriter escribir;
 		public static void Main(string[] args)
 		{
 			Console.Title = "Biblioteca";
@@ -33,7 +39,9 @@ namespace biblioteca
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.Clear();
 			
-			while (login() != true)
+			
+			while (login() != true){}
+				
 			do
 			{
 				switch (menu()) {
@@ -47,7 +55,7 @@ namespace biblioteca
 						// Opción: registrar un prestamo de libro
 						break;
 					case '4':
-						// Opción: registrar una devolución de libro
+						devolucion();// Opción: registrar una devolución de libro
 						break;
 					case '5':
 						// Opción: mostrar toda la información
@@ -320,6 +328,52 @@ namespace biblioteca
 			Console.BackgroundColor = ConsoleColor.White;
 			Console.WriteLine("\n-> Fin del programa");
 			Console.ReadKey();
+		}
+		static void devolucion ()
+		{
+			try 
+			{
+			Devolucion acceso;
+			String opcion;
+			acceso.ruta = "C:/GitHub/biblioteca/db/devoluciones.txt"; 
+			do 
+			{
+			
+			Console.Clear();
+			escribir = new StreamWriter(acceso.ruta, true);
+			Console.WriteLine("\tRegistro de devolución");
+			Console.Write("\n");
+			Console.WriteLine("\tIngresar datos para devolucion de libro");
+			Console.Write("\tNombre de la persona: ");
+			acceso.nombre = Console.ReadLine();
+			Console.Write("\tNombre del libro a devolver: ");
+			acceso.libro = Console.ReadLine();
+			Console.Write("\tFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
+			escribir.Write("\n----------------------------------------------------------------");
+			escribir.Write("\nNombre de la persona: " + acceso.nombre);
+			escribir.Write("\nNombre del libro: " + acceso.libro);
+			escribir.Write("\nFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
+			escribir.Write("\n----------------------------------------------------------------");
+			Console.WriteLine("\n\tRegistro exitoso...");
+			escribir.Close();
+			Console.Write("\tDesea registrar otra devolución [S/N]: ");
+			opcion = Console.ReadLine ();
+			if (opcion == "N" || opcion == "n")
+			{
+				Process.Start("C:/GitHub/biblioteca/db/devoluciones.txt");
+			}
+			}
+			while (opcion == "S" || opcion == "s");
+			
+			} catch (Exception e) {
+			Console.ForegroundColor = ConsoleColor.White;
+				Console.BackgroundColor = ConsoleColor.Red;
+				Console.Write("\n\t");
+				Console.WriteLine(e.Message);
+				Console.ForegroundColor = ConsoleColor.White;
+				Console.BackgroundColor = ConsoleColor.Black;
+				Console.ReadKey();	
+			}
 		}
 	}
 }
