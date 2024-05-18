@@ -25,7 +25,7 @@ namespace biblioteca
 		}
 		public struct datos
 		{
-			public String cadena, us, clave;
+			public String us, clave;
 			public String[] campos;
 			public String ruta;
 		}
@@ -40,8 +40,10 @@ namespace biblioteca
 			Console.Clear();
 			
 			
-			while (login() != true){}
-				
+			while (login() != true){
+
+			}
+//			login();
 			do
 			{
 				switch (menu()) {
@@ -84,45 +86,54 @@ namespace biblioteca
 			datos var_datos;
 			var_datos.campos = new String[2];
 			var_datos.ruta = "C:/GitHub/biblioteca/db/usuarios.txt";
+			string cadena;
+			bool resp = false;
 			int n_intentos = 0;
 			
 			Console.Clear();
 			try {
+				lectura = File.OpenText(var_datos.ruta);
+				
 				Console.Write("\n\tIngrese su usuario: ");
 				var_datos.us = Console.ReadLine();
 				Console.Write("\tIngrese su clave: ");
 				var_datos.clave = Console.ReadLine();
-				lectura = File.OpenText(var_datos.ruta);
-				var_datos.cadena = lectura.ReadLine();
-				var_datos.campos = var_datos.cadena.Split(',');
-				if(var_datos.campos[0].Trim().Equals(var_datos.us) && var_datos.campos[1].Trim().Equals(var_datos.clave)) {
-					Console.ForegroundColor = ConsoleColor.White;
-					Console.BackgroundColor = ConsoleColor.Green;
-					Console.WriteLine("\n\tCredenciales correctas :D");
-					Console.ForegroundColor = ConsoleColor.White;
-					Console.BackgroundColor = ConsoleColor.Black;
-					Console.ReadKey();
-					
-					return true;
-				} else {
+				
+				cadena = lectura.ReadLine();
+				while (cadena != null && resp != true) {
+					var_datos.campos = cadena.Split(',');
+					if(var_datos.campos[0].Trim().Equals(var_datos.us) && var_datos.campos[1].Trim().Equals(var_datos.clave)) {
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Green;
+						Console.WriteLine("\n\tCredenciales correctas :D");
+						Console.ForegroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Black;
+						Console.ReadKey();
+						resp = true;
+						return true;
+					} else {
+						cadena = lectura.ReadLine();
+					}
+				}
+				if (resp == false) {
 					n_intentos = n_intentos + 1;
 					Console.ForegroundColor = ConsoleColor.White;
 					Console.BackgroundColor = ConsoleColor.Red;
 					Console.WriteLine("\n\tCredenciales incorrectas D:");
 					Console.ForegroundColor = ConsoleColor.White;
 					Console.BackgroundColor = ConsoleColor.Black;
-					if (n_intentos < 3) {
-						Console.Write("\tLe quedan {0} intentos", 3-n_intentos);
-					} else if (n_intentos == 3) {
-						Console.Write("\n\tLimite de intentos alcanzado, cerrando el programa");
-						Console.ReadKey();
-						creditos();
-						Environment.Exit(0);
-					}
+//					if (n_intentos < 3) {
+//						Console.Write("\tLe quedan {0} intentos", 3-n_intentos);
+//					} else if (n_intentos == 3) {
+//						Console.Write("\n\tLimite de intentos alcanzado, cerrando el programa");
+//						Console.ReadKey();
+//						creditos();
+//						Environment.Exit(0);
+//					}
 					Console.ReadKey();
-					return false;
 				}
 				lectura.Close();
+				return false;
 			} catch (Exception e) {
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.BackgroundColor = ConsoleColor.Red;
@@ -331,48 +342,52 @@ namespace biblioteca
 		}
 		static void devolucion ()
 		{
-			try 
+			try
 			{
-			Devolucion acceso;
-			String opcion;
-			acceso.ruta = "C:/GitHub/biblioteca/db/devoluciones.txt"; 
-			do 
-			{
-			
-			Console.Clear();
-			escribir = new StreamWriter(acceso.ruta, true);
-			Console.WriteLine("\tRegistro de devolución");
-			Console.Write("\n");
-			Console.WriteLine("\tIngresar datos para devolucion de libro");
-			Console.Write("\tNombre de la persona: ");
-			acceso.nombre = Console.ReadLine();
-			Console.Write("\tNombre del libro a devolver: ");
-			acceso.libro = Console.ReadLine();
-			Console.Write("\tFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
-			escribir.Write("\n----------------------------------------------------------------");
-			escribir.Write("\nNombre de la persona: " + acceso.nombre);
-			escribir.Write("\nNombre del libro: " + acceso.libro);
-			escribir.Write("\nFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
-			escribir.Write("\n----------------------------------------------------------------");
-			Console.WriteLine("\n\tRegistro exitoso...");
-			escribir.Close();
-			Console.Write("\tDesea registrar otra devolución [S/N]: ");
-			opcion = Console.ReadLine ();
-			if (opcion == "N" || opcion == "n")
-			{
-				Process.Start("C:/GitHub/biblioteca/db/devoluciones.txt");
-			}
-			}
-			while (opcion == "S" || opcion == "s");
-			
+				Devolucion acceso;
+				String opcion;
+				acceso.ruta = "C:/GitHub/biblioteca/ficheros/devoluciones.txt";
+				do
+				{
+					
+					Console.Clear();
+					escribir = new StreamWriter(acceso.ruta, true);
+					Console.WriteLine("\tRegistro de devolución");
+					Console.Write("\n");
+					Console.WriteLine("\tIngresar datos para devolucion de libro");
+					Console.Write("\tNombre de la persona: ");
+					acceso.nombre = Console.ReadLine();
+					Console.Write("\tNombre del libro a devolver: ");
+					acceso.libro = Console.ReadLine();
+					Console.Write("\tFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
+					escribir.Write("\n----------------------------------------------------------------");
+					escribir.Write("\nNombre de la persona: " + acceso.nombre);
+					escribir.Write("\nNombre del libro: " + acceso.libro);
+					escribir.Write("\nFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
+					escribir.Write("\n----------------------------------------------------------------");
+					Console.WriteLine("\n\tRegistro exitoso...");
+					escribir.Close();
+					escribir = new StreamWriter("C:/GitHub/biblioteca/db/devoluciones.txt", true);
+					escribir.Write("{0},{1},{2}", acceso.nombre, acceso.libro, DateTime.Now.ToString());
+					escribir.Close();
+					
+					Console.Write("\tDesea registrar otra devolución [S/N]: ");
+					opcion = Console.ReadLine ();
+//					if (opcion == "N" || opcion == "n")
+//					{
+//						Process.Start("C:/GitHub/biblioteca/ficheros/devoluciones.txt");
+//					}
+				}
+				while (opcion == "S" || opcion == "s");
+				Process.Start("C:/GitHub/biblioteca/ficheros/devoluciones.txt");
 			} catch (Exception e) {
-			Console.ForegroundColor = ConsoleColor.White;
+				Console.ForegroundColor = ConsoleColor.White;
 				Console.BackgroundColor = ConsoleColor.Red;
 				Console.Write("\n\t");
 				Console.WriteLine(e.Message);
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.BackgroundColor = ConsoleColor.Black;
-				Console.ReadKey();	
+				Console.ReadKey();
 			}
 		}
 	}
