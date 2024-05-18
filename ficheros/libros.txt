@@ -1,0 +1,13 @@
+
+	Nombre: Dracula
+	Editorial: Panini
+	Autor: Vlad
+	Categoría: Terror
+	Año de publicación: 0001
+	* -------------------- * -------------------- * -------------------- *
+	Nombre: Berserk
+	Editorial: Penini
+	Autor: Kentaro Miura
+	Categoría: Manga
+	Año de publicación: 2020
+	* -------------------- * -------------------- * -------------------- *

@@ -234,7 +234,7 @@ namespace biblioteca
 				}
 				while (opcion == "S" || opcion == "s");
 				Console.Clear();
-				Console.Write("\n\tAbriendo el registro de devoluciones...");
+				Console.Write("\n\tAbriendo el registro de libros...");
 				Process.Start(ruta);
 			} catch (Exception e) {
 				Console.ForegroundColor = ConsoleColor.White;
@@ -368,7 +368,10 @@ namespace biblioteca
 						while ((linea = lectura.ReadLine()) != null) {
 							var_datos.campos = linea.Split(',');
 							imprimir_info("  Nombre del libro", var_datos.campos[0].Trim());
-							imprimir_info("  Autor", var_datos.campos[1].Trim());
+							imprimir_info("  Editorial", var_datos.campos[1].Trim());
+							imprimir_info("  Autor", var_datos.campos[2].Trim());
+							imprimir_info("  Categoría", var_datos.campos[3].Trim());
+							imprimir_info("  Año de publicación", var_datos.campos[4].Trim());
 							Console.Write("\n\t* -------------------- * -------------------- *");
 						}
 						lectura.Close();
