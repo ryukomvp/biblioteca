@@ -88,7 +88,7 @@ namespace biblioteca
 			var_datos.ruta = "C:/GitHub/biblioteca/db/usuarios.txt";
 			string cadena;
 			bool resp = false;
-			int n_intentos = 0;
+//			int n_intentos = 0;
 			
 			Console.Clear();
 			try {
@@ -116,7 +116,7 @@ namespace biblioteca
 					}
 				}
 				if (resp == false) {
-					n_intentos = n_intentos + 1;
+//					n_intentos = n_intentos + 1;
 					Console.ForegroundColor = ConsoleColor.White;
 					Console.BackgroundColor = ConsoleColor.Red;
 					Console.WriteLine("\n\tCredenciales incorrectas D:");
@@ -259,9 +259,20 @@ namespace biblioteca
 				case '4':
 					// Opción: leer devoluciones
 					try {
-						Console.Clear();
 						var_datos.ruta = var_datos.ruta + "devoluciones.txt";
-						Process.Start(var_datos.ruta);
+						lectura = new StreamReader(var_datos.ruta);
+						Console.Write("\n\t* -------------------- * -------------------- *");
+						Console.Write("\n\t| Información de las devoluciones realizadas  |");
+						Console.Write("\n\t* -------------------- * -------------------- *");
+						while ((linea = lectura.ReadLine()) != null) {
+							var_datos.campos = linea.Split(',');
+							imprimir_info("  Persona", var_datos.campos[0].Trim());
+							imprimir_info("  Libro devuelto", var_datos.campos[1].Trim());
+							imprimir_info("  Fecha de devolución", var_datos.campos[2].Trim());
+							Console.Write("\n\t* -------------------- * -------------------- *");
+						}
+						lectura.Close();
+						var_datos.ruta = "C:/GitHub/biblioteca/db/";
 					} catch (Exception e) {
 						Console.ForegroundColor = ConsoleColor.White;
 						Console.BackgroundColor = ConsoleColor.Red;
@@ -349,7 +360,6 @@ namespace biblioteca
 				acceso.ruta = "C:/GitHub/biblioteca/ficheros/devoluciones.txt";
 				do
 				{
-					
 					Console.Clear();
 					escribir = new StreamWriter(acceso.ruta, true);
 					Console.WriteLine("\tRegistro de devolución");
@@ -360,11 +370,10 @@ namespace biblioteca
 					Console.Write("\tNombre del libro a devolver: ");
 					acceso.libro = Console.ReadLine();
 					Console.Write("\tFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
-					escribir.Write("\n----------------------------------------------------------------");
-					escribir.Write("\nNombre de la persona: " + acceso.nombre);
-					escribir.Write("\nNombre del libro: " + acceso.libro);
-					escribir.Write("\nFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
-					escribir.Write("\n----------------------------------------------------------------");
+					escribir.Write("\n\tNombre de la persona: " + acceso.nombre);
+					escribir.Write("\n\tNombre del libro: " + acceso.libro);
+					escribir.Write("\n\tFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
+					escribir.Write("\n\t* -------------------- * -------------------- *");
 					Console.WriteLine("\n\tRegistro exitoso...");
 					escribir.Close();
 					escribir = new StreamWriter("C:/GitHub/biblioteca/db/devoluciones.txt", true);
