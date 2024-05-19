@@ -1,0 +1,6 @@
+
+	Nombre de la persona: dani
+	Nombre del libro: Dracula
+	Fecha y hora del préstamo: [18/05/2024 22:17:58]
+	Fecha aproximada para devolución: seis meses
+	* -------------------- * -------------------- * -------------------- *

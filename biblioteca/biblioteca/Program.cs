@@ -27,10 +27,11 @@ namespace biblioteca
 			public String publicacion;
 		}
 		
-		public struct Devolucion
+		public struct Transacciones
 		{
-			public String nombre; 
+			public String nombre;
 			public String libro;
+			public String fecha_devolucion;
 		}
 		
 		public struct datos
@@ -63,6 +64,7 @@ namespace biblioteca
 				switch (menu()) {
 					case '1':
 						// Opción: registrar un usuario
+						registrar_usuario(ruta, rutadb);
 						break;
 					case '2':
 						// Opción: registrar un libro
@@ -70,6 +72,7 @@ namespace biblioteca
 						break;
 					case '3':
 						// Opción: registrar un prestamo de libro
+						prestamo(ruta, rutadb);
 						break;
 					case '4':
 						devolucion(ruta, rutadb);// Opción: registrar una devolución de libro
@@ -125,6 +128,7 @@ namespace biblioteca
 						Console.BackgroundColor = ConsoleColor.Black;
 						Console.ReadKey();
 						resp = true;
+						lectura.Close();
 						return true;
 					} else {
 						cadena = lectura.ReadLine();
@@ -181,6 +185,62 @@ namespace biblioteca
 			return opcion;
 		}
 		
+		static void registrar_usuario(String ruta, String rutadb)
+		{
+			try
+			{
+				datos acceso;
+				String opcion;
+				ruta = ruta + "usuarios.txt";
+				rutadb = rutadb + "usuarios.txt";
+				
+				do
+				{
+					Console.Clear();
+					escribir = new StreamWriter(ruta, true);
+					Console.ForegroundColor = ConsoleColor.Black;
+					Console.BackgroundColor = ConsoleColor.White;
+					Console.WriteLine("\n\t\tRegistrar un usuario");
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.BackgroundColor = ConsoleColor.Black;
+					Console.WriteLine("\n\tIngresar datos del usuario");
+					Console.Write("\tNombre: ");
+					acceso.us = Console.ReadLine();
+					Console.Write("\tClave: ");
+					acceso.clave = Console.ReadLine();
+					escribir.Write("\n\tNombre: " + acceso.us);
+					escribir.Write("\n\tClave: " + acceso.clave);
+					escribir.Write("\n\t* -------------------- * -------------------- * -------------------- *");
+					escribir.Close();
+					// Escribir en el archivo de la base
+					escribir = new StreamWriter(rutadb, true);
+					escribir.Write("{0},{1}\n", acceso.us, acceso.clave);
+					escribir.Close();
+					
+					Console.Clear();
+					Console.ForegroundColor = ConsoleColor.Black;
+					Console.BackgroundColor = ConsoleColor.White;
+					Console.WriteLine("\n\tRegistro exitoso!");
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.BackgroundColor = ConsoleColor.Black;
+					Console.Write("\tDesea registrar otro usuario [S/N]: ");
+					opcion = Console.ReadLine ();
+				}
+				while (opcion == "S" || opcion == "s");
+				Console.Clear();
+				Console.Write("\n\tAbriendo el registro de usuarios...");
+				Process.Start(ruta);
+			} catch (Exception e) {
+				Console.ForegroundColor = ConsoleColor.White;
+				Console.BackgroundColor = ConsoleColor.Red;
+				Console.Write("\n\t");
+				Console.WriteLine(e.Message);
+				Console.ForegroundColor = ConsoleColor.White;
+				Console.BackgroundColor = ConsoleColor.Black;
+				Console.ReadKey();
+			}
+		}
+		
 		static void registrar_libro(String ruta, String rutadb)
 		{
 			try
@@ -216,19 +276,17 @@ namespace biblioteca
 					escribir.Write("\n\tCategoría: " + acceso.categoria);
 					escribir.Write("\n\tAño de publicación: " + acceso.publicacion);
 					escribir.Write("\n\t* -------------------- * -------------------- * -------------------- *");
-					Console.ReadKey();
+					escribir.Close();
+					// Escribir en el archivo de la base
+					escribir = new StreamWriter(rutadb, true);
+					escribir.Write("{0},{1},{2},{3},{4}\n", acceso.nombre, acceso.editorial, acceso.autor, acceso.categoria, acceso.publicacion);
+					escribir.Close();
 					Console.Clear();
 					Console.ForegroundColor = ConsoleColor.Black;
 					Console.BackgroundColor = ConsoleColor.White;
 					Console.WriteLine("\n\tRegistro exitoso!");
 					Console.ForegroundColor = ConsoleColor.White;
 					Console.BackgroundColor = ConsoleColor.Black;
-					escribir.Close();
-					// Escribir en el archivo de la base
-					escribir = new StreamWriter(rutadb, true);
-					escribir.Write("{0},{1},{2},{3},{4}\n", acceso.nombre, acceso.editorial, acceso.autor, acceso.categoria, acceso.publicacion);
-					escribir.Close();
-					
 					Console.Write("\tDesea registrar otro libro [S/N]: ");
 					opcion = Console.ReadLine ();
 				}
@@ -247,11 +305,71 @@ namespace biblioteca
 			}
 		}
 		
+		static void prestamo(String ruta, String rutadb)
+		{
+			try {
+				Transacciones acceso;
+				String opcion;
+				ruta = ruta + "prestamos.txt";
+				rutadb = rutadb + "prestamos.txt";
+				
+				do
+				{
+					Console.Clear();
+					escribir = new StreamWriter(ruta, true);
+					Console.ForegroundColor = ConsoleColor.Black;
+					Console.BackgroundColor = ConsoleColor.White;
+					Console.WriteLine("\n\t\tRegistro de préstamo");
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.BackgroundColor = ConsoleColor.Black;
+					Console.WriteLine("\n\tIngresar datos para préstamo de libro");
+					Console.Write("\tNombre de la persona: ");
+					acceso.nombre = Console.ReadLine();
+					Console.Write("\tNombre del libro a prestar: ");
+					acceso.libro = Console.ReadLine();
+					Console.Write("\tFecha aproximada para devolución: ");
+					acceso.fecha_devolucion = Console.ReadLine();
+					Console.Write("\tFecha y hora del préstamo: [" + DateTime.Now.ToString() + "]");
+					escribir.Write("\n\tNombre de la persona: " + acceso.nombre);
+					escribir.Write("\n\tNombre del libro: " + acceso.libro);
+					escribir.Write("\n\tFecha y hora del préstamo: [" + DateTime.Now.ToString() + "]");
+					escribir.Write("\n\tFecha aproximada para devolución: " + acceso.fecha_devolucion);
+					escribir.Write("\n\t* -------------------- * -------------------- * -------------------- *");
+					Console.ReadKey();
+					escribir.Close();
+					// Escribir en el archivo de la base
+					escribir = new StreamWriter(rutadb, true);
+					escribir.Write("{0},{1},{2},{3}\n", acceso.nombre, acceso.libro, DateTime.Now.ToString(), acceso.fecha_devolucion);
+					escribir.Close();
+					Console.Clear();
+					Console.ForegroundColor = ConsoleColor.Black;
+					Console.BackgroundColor = ConsoleColor.White;
+					Console.WriteLine("\n\tRegistro exitoso!");
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.BackgroundColor = ConsoleColor.Black;
+					Console.Write("\tDesea registrar otro préstamo [S/N]: ");
+					opcion = Console.ReadLine ();
+				}
+				while (opcion == "S" || opcion == "s");
+				Console.Clear();
+				Console.Write("\n\tAbriendo el registro de préstamos...");
+				Process.Start(ruta);
+			} catch (Exception e) {
+				Console.ForegroundColor = ConsoleColor.White;
+				Console.BackgroundColor = ConsoleColor.Red;
+				Console.Write("\n\t");
+				Console.WriteLine(e.Message);
+				Console.ForegroundColor = ConsoleColor.White;
+				Console.BackgroundColor = ConsoleColor.Black;
+				Console.ReadKey();
+			}
+		}
+		
 		static void devolucion(String ruta, String rutadb)
 		{
 			try
 			{
-				Devolucion acceso;
+				Transacciones acceso;
 				String opcion;
 				ruta = ruta + "devoluciones.txt";
 				rutadb = rutadb + "devoluciones.txt";
@@ -276,24 +394,20 @@ namespace biblioteca
 					escribir.Write("\n\tFecha y hora de la devolución: [" + DateTime.Now.ToString() + "]");
 					escribir.Write("\n\t* -------------------- * -------------------- * -------------------- *");
 					Console.ReadKey();
-					Console.Clear();
-					Console.ForegroundColor = ConsoleColor.Black;
-					Console.BackgroundColor = ConsoleColor.White;
-					Console.WriteLine("\n\tRegistro exitoso!");
-					Console.ForegroundColor = ConsoleColor.White;
-					Console.BackgroundColor = ConsoleColor.Black;
 					escribir.Close();
 					// Escribir en el archivo de la base
 					escribir = new StreamWriter(rutadb, true);
 					escribir.Write("{0},{1},{2}\n", acceso.nombre, acceso.libro, DateTime.Now.ToString());
 					escribir.Close();
 					
+					Console.Clear();
+					Console.ForegroundColor = ConsoleColor.Black;
+					Console.BackgroundColor = ConsoleColor.White;
+					Console.WriteLine("\n\tRegistro exitoso!");
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.BackgroundColor = ConsoleColor.Black;
 					Console.Write("\tDesea registrar otra devolución [S/N]: ");
 					opcion = Console.ReadLine ();
-//					if (opcion == "N" || opcion == "n")
-//					{
-//						Process.Start("C:/GitHub/biblioteca/ficheros/devoluciones.txt");
-//					}
 				}
 				while (opcion == "S" || opcion == "s");
 				Console.Clear();
@@ -389,9 +503,20 @@ namespace biblioteca
 				case '3':
 					// Opción: leer prestamos
 					try {
-						Console.Clear();
 						ruta = ruta + "prestamos.txt";
-						Process.Start(ruta);
+						lectura = new StreamReader(ruta);
+						Console.Write("\n\t* -------------------- * -------------------- *");
+						Console.Write("\n\t| Información de los prestamos registrados    |");
+						Console.Write("\n\t* -------------------- * -------------------- *");
+						while ((linea = lectura.ReadLine()) != null) {
+							var_datos.campos = linea.Split(',');
+							imprimir_info("  Nombre de la persona", var_datos.campos[0].Trim());
+							imprimir_info("  Nombre del libro", var_datos.campos[1].Trim());
+							imprimir_info("  Fecha de inicio del préstamo", var_datos.campos[2].Trim());
+							imprimir_info("  Fecha aproximada de devolución", var_datos.campos[3].Trim());
+							Console.Write("\n\t* -------------------- * -------------------- *");
+						}
+						lectura.Close();
 					} catch (Exception e) {
 						Console.ForegroundColor = ConsoleColor.White;
 						Console.BackgroundColor = ConsoleColor.Red;
